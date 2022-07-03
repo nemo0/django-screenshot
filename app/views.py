@@ -1,7 +1,9 @@
 
+from cmath import e
 from html2image import Html2Image
 from hashlib import sha1
 import hmac
+from rest_framework.decorators import api_view
 
 
 from django.views.decorators.csrf import csrf_exempt
@@ -24,6 +26,7 @@ def sayhello(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
 def screenshotWithSelenium(request):
     if request.method == 'POST':
         DATA = json.loads(request.body)
@@ -47,6 +50,7 @@ def screenshotWithSelenium(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
 def screenshotWithPageSpeed(request):
     if request.method == 'POST':
         DATA = json.loads(request.body)
@@ -69,7 +73,8 @@ def screenshotWithPageSpeed(request):
                     f.write(ss_decoded)
 
                 return JsonResponse({'status': 'success'})
-            except:
+            except Exception as e:
+                raise e
                 return JsonResponse({'error': 'Error taking screenshot'})
 
     elif request.method == 'GET':
@@ -80,6 +85,7 @@ def screenshotWithPageSpeed(request):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
 def screenshotWithHtml2Image(request):
     if request.method == 'POST':
         DATA = json.loads(request.body)
@@ -116,6 +122,7 @@ def urlbox(args):
 
 
 @csrf_exempt
+@api_view(['GET', 'POST'])
 def screenshotWithUrlbox(request):
     if request.method == 'POST':
         DATA = json.loads(request.body)
