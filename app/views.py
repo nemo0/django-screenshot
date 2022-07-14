@@ -16,6 +16,7 @@ import base64
 import json
 
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from time import sleep
 
 
@@ -34,7 +35,7 @@ def screenshotWithSelenium(request):
             return JsonResponse({'error': 'No website provided'})
         else:
             try:
-                driver = webdriver.Chrome()
+                driver = webdriver.Chrome(ChromeDriverManager().install())
                 driver.get(DATA['website'])
                 sleep(5)
                 driver.get_screenshot_as_file('selenium.png')
@@ -140,6 +141,8 @@ def screenshotWithUrlbox(request):
             try:
                 urlBoxUrl = urlbox(argsDict)
                 print('screenshot taken')
+                resp = requests.get(urlBoxUrl)
+                open('urlbox.png', 'wb').write(resp.content)
                 return JsonResponse({'status': 'success', 'url': urlBoxUrl})
             except:
                 return JsonResponse({'error': 'Error taking screenshot'})

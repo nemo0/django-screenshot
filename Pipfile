@@ -9,6 +9,7 @@ djangorestframework = "*"
 html2image = "*"
 requests = "*"
 selenium = "*"
+webdriver-manager = "*"
 
 [dev-packages]
 
